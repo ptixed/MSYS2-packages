@@ -16,14 +16,16 @@ source=(https://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.xz{,.sig}
         005-manifest.patch
         006-msys1-0x0d.patch
         008-msys2-src.patch
-        009-msysize.patch)
+        009-msysize.patch
+        010-unbuffered-sort-merge.patch)
 sha256sums=('155e94d748f8e2bc327c66e0cbebdb8d6ab265d2f37c3c928f7bf6c3beba9a8e'
             'SKIP'
             'd9c159ed688c4399f1d952bef1d3cae7a23653a77d187e5dc788fe33c1b5816f'
             '22e73cf22f784657fae6161cc9538b2f0cd4043800df56c9f6b9aec4ec0a69ce'
             'dc501c52267f99cfd81bc00aa31b624183b189638feb43b54b326b62e52fc62a'
             'e411e3c8d202bab8c171082494ad6511dc8642933b367539e2f3006af0a67f7e'
-            '46d30e057c86ff6448fee4b1664a9d8914d56d7efbfd97276212490a03926704')
+            '46d30e057c86ff6448fee4b1664a9d8914d56d7efbfd97276212490a03926704'
+            'aa3191d80dd16d307f2234299f925420052ade7f26239670ac7d7af3dae0ba26')
 
 prepare() {
   cd ${srcdir}/${pkgname}-${pkgver}
@@ -33,6 +35,7 @@ prepare() {
   patch -p1 -i ${srcdir}/006-msys1-0x0d.patch
   patch -p1 -i ${srcdir}/008-msys2-src.patch
   patch -p1 -i ${srcdir}/009-msysize.patch
+  patch -p1 -i ${srcdir}/010-unbuffered-sort-merge.patch
 
   autoreconf -fi
   sed -i -e 's|\(libstdbuf\.so\)$(EXEEXT)|\1|g' Makefile.in
