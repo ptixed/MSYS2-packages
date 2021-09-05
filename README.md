@@ -16,3 +16,31 @@ Make sure both are installed before attempting to build any package:
 To install the built package(s).
 
     pacman -U ${package-name}*.pkg.tar.xz
+
+## hacking
+
+install git sdk, then:
+
+```bash
+git checkout msys2-runtime-2.x
+vim /etc/pacman.conf # SigLevel -> Never
+pacman -Syy
+sdk init MSYS2-runtime # broken - because of master branch rename to main (yay for political correctness...)
+
+# walkaround
+cd /usr/src/MSYS2-packages
+git fetch
+git checkout main
+git checkout -b master
+sdk init MSYS2-runtime
+# end of walkaround
+
+cd /usr/src/MSYS2-packages/coreutils
+git remote set-url origin git@github.com:ptixed/MSYS2-packages.git
+git fetch
+# git rebase # first check how does local copy differ from remote
+makepkg -s
+```
+
+to run programs from pkg/ you will also need /usr/bin/msys-2.0.dll
+
